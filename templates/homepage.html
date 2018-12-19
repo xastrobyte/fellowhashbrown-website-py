@@ -1,0 +1,156 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='/safari-pinned-tab.svg') }}" color="#202020">
+    <meta name="msapplication-TileColor" content="#202020">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='/mstile-144x144.png') }}">
+    <meta name="theme-color" content="#202020">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='/browserconfig.xml') }}">
+
+    <meta property="theme-color" content="#EC7600" />
+    <meta property="og:title" content="website.home();" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.fellowhashbrown.com" />
+    <meta property="og:image" content="https://i.imgur.com/OVZVMLs.png" />
+
+    <meta property="og:description" content="this is my website! cool." />
+    <meta property="og:site_name" content="Fellow Hashbrown" />
+  </head>
+
+  <header>
+    <img src="https://i.imgur.com/OVZVMLs.png" width="50px" height="50px" class="logo">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <nav>
+        <ul>
+          <li><a href="/">home</a></li>
+          <li><a href="/projects">projects</a></li>
+          <li><a href="/api">api</a></li>
+        </ul>
+    </nav>
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+    </label>
+  </header>
+
+  <body>
+    <div class="content">
+      <!--Title of Home Page-->
+      <h1 style="font-weight: normal; text-align: center;">
+        <code class="field">website</code><code class="regular">.</code><code class="field">home</code><code class="regular">();</code>
+      </h1>
+      <div class="rectangle">
+        <p style="text-align: center;">
+          this is my website! cool.
+        </p>
+      </div>
+
+      <!--About Section-->
+      <h2 style="font-weight: normal;">
+        <a name="about"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">about</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          nice, ya found me. well my name is jonah. i am currently a sophomore in college. i am majoring in computer science. and that's about it.<br />
+          oh yeah, i also have a few coding projects that you can find on the <a href="/projects" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">projects</a> page.
+        </p>
+      </div>
+
+      <!--Social Section-->
+      <h2 style="font-weight: normal;">
+        <a name="social"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">social</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          if ya wanna contact me on other social media, go right ahead. here are all my links for absolutely everything that i have from gaming to social media to coding.<br />
+          all the good stuff.
+        </p>
+        
+        <!--Instagram-->
+        <a href="https://instagram.com/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/174/174855.svg" width="50px" height="50px">
+        </a>
+
+        <!--Facebook-->
+        <a href="https://facebook.com/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/174/174848.svg" width="50px" height="50px">
+        </a>
+
+        <!--Twitter-->
+        <a href="https://twitter.com/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/174/174876.svg" width="50px" height="50px">
+        </a>
+
+        <!--Tumblr-->
+        <a href="https://tumblr.com/blog/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/174/174875.svg" width="50px" height="50px">
+        </a>
+        
+        <!--Steam-->
+        <a href="https://steamcommunity.com/id/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://www.freeiconspng.com/uploads/steam-icon-19.png" width="50px" height="50px">
+        </a>
+
+        <!--Twitch-->
+        <a href="https://twitch.tv/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/733/733577.svg" width="50px" height="50px">
+        </a>
+        
+        <!--PyPi-->
+        <a href="https://pypi.org/user/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/2000px-Python-logo-notext.svg.png" width="50px" height="50px">
+        </a>
+
+        <!--Github-->
+        <a href="https://github.com/FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://image.flaticon.com/icons/svg/733/733553.svg" width="50px" height="50px">
+        </a>
+
+        <!--Repl.it-->
+        <a href="https://repl.it/@FellowHashbrown" target="_blank" style="margin: 1%; justify-self: center;">
+          <img src="https://avatars3.githubusercontent.com/u/983194?s=280&v=4" width="50px" height="50px">
+        </a>
+      </div>
+      
+      <!--Discord Section-->
+      <h2 style="font-weight: normal;">
+        <a name="discord"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">discord</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          <a href="https://discord.gg/mvNxh3f" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">here</a> is my discord server for all my projects too. that might be helpful eh?<br />
+          any bug reports, feature requests, and whatever else can be submitted through here. each project of mine is in its own category with its own channels so you can talk through there.<br />
+          don't be afraid to mention me if you need help with something.
+        </p>
+      </div>
+      
+      <!--Credit icon authors-->
+      <div style="text-align: center;"><code class="regular">
+        Icons made by 
+        <a href="https://www.freepik.com/" title="Freepik" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">Freepik</a> 
+        from 
+        <a href="https://www.flaticon.com/" title="Flaticon" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">www.flaticon.com</a> 
+        is licensed by 
+        <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">CC 3.0 BY</a>  
+      </code></div>
+      
+      <div style="text-align: center;"><code class="regular">
+        Icons made by 
+        <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">Pixel perfect</a> 
+        from 
+        <a href="https://www.flaticon.com/" title="Flaticon" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">www.flaticon.com</a> 
+        is licensed by 
+        <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">CC 3.0 BY</a>
+      </code></div>
+    </div>
+  </body>
+</html>

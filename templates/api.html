@@ -1,0 +1,287 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='/safari-pinned-tab.svg') }}" color="#202020">
+    <meta name="msapplication-TileColor" content="#202020">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='/mstile-144x144.png') }}">
+    <meta name="theme-color" content="#202020">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='/browserconfig.xml') }}">
+
+    <meta property="theme-color" content="#EC7600" />
+    <meta property="og:title" content="website.api();" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.fellowhashbrown.com/api" />
+    <meta property="og:image" content="https://i.imgur.com/OVZVMLs.png" />
+
+    <meta property="og:description" content="if you're a developer, you've reached my available APIs that i've written! if you're not a developer, you won't understand how this works but you're free to try." />
+    <meta property="og:site_name" content="Fellow Hashbrown" />
+  </head>
+
+  <header>
+    <img src="https://i.imgur.com/OVZVMLs.png" width="50px" height="50px" class="logo">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <nav>
+        <ul>
+          <li><a href="/">home</a></li>
+          <li><a href="/projects">projects</a></li>
+          <li><a href="/api">api</a></li>
+        </ul>
+    </nav>
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+    </label>
+  </header>
+
+  <body>
+    <div class="content">
+      <!--Title of API Page-->
+      <h1 style="font-weight: normal; text-align: center;">
+        <code class="field">website</code><code class="regular">.</code><code class="field">api</code><code class="regular">();</code>
+      </h1>
+      <div class="rectangle" style="max-width: 75%;">
+        <p style="text-align: center;">
+          if you're a developer, you've reached my available APIs that i've written! if you're not a developer, you won't understand how this works but you're free to try.
+        </p>
+      </div>
+
+      <!--Hangman API Section-->
+      <h2 style="font-weight: normal;">
+        <a name="hangman"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">hangmanAPI</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          <code>GET /hangman</code>
+          <p style="text-align: left;">Gets a random word from a difficulty to use in a hangman game.</p>
+          <p style="text-align: left; font-weight: bold;">Parameters</p>
+          <table width="100%">
+            <tr>
+              <th style="width: 20%; font-weight: normal;"><p style="color: #E0E2E4;">Name</p></th>
+              <th style="width: 10%; font-weight: normal;"><p style="color: #E0E2E4;">Type</p></th>
+              <th style="font-weight: normal;"><p style="color: #E0E2E4;">Description</p></th>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">difficulty</code></td>
+              <td><code class="code">string</code></td>
+              <td style="font-weight: normal;"><p style="color: #E0E2E4;">
+                Can be either <code class="code">easy</code>, <code class="code">medium</code>, <code class="code">hard</code>, or <code class="code">random</code>.<br>Defaults to <code class="code">random</code>.
+              </p></td>
+            </tr>
+          </table>
+          <p style="text-align: left; font-weight: bold;">Response Messages</p>
+          <table width="100%">
+            <tr>
+              <th style="width: 10%; font-weight: normal;"><p style="color: #E0E2E4;">Status Code</p></th>
+              <th style="width: 25%; font-weight: normal;"><p style="color: #E0E2E4;">Reason</p></th>
+              <th style="font-weight: normal;"><p style="color: #E0E2E4;">Reponse</p></th>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">400</code></td>
+              <td><p>
+                The difficulty given is an invalid difficulty.
+              </p></td>
+              <td>
+                <p><code class="code">
+                  {<br>
+                    &emsp; "success": false,<br>
+                    &emsp; "value": "Invalid Difficulty"<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: left;"><code class="code">200</code></td>
+              <td style="text-align: left;"><p>
+                A successful response.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": true,<br>
+                    &emsp; "value": "wheel",<br>
+                    &emsp; "level": "easy"<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+          </table>
+        </p>
+      </div>
+
+      <!--Scramble API Section-->
+      <h2 style="font-weight: normal;">
+        <a name="scramble"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">scrambleAPI</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          <code>GET /scramble</code>
+          <p style="text-align: left;">Gets a random word to use in a scramble game.</p>
+          <p style="text-align: left; font-weight: bold;">Parameters</p>
+        <p style="text-align: left;">None</p>
+          <p style="text-align: left; font-weight: bold;">Response Messages</p>
+          <table width="100%">
+            <tr style="text-align: center;">
+              <th style="width: 10%;"><code class="code">Status Code</code></th>
+              <th style="width: 20%;"><code class="code">Reason</code></th>
+              <th><code class="code">Response</code></th>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">200<code></td>
+              <td><p>
+                A successful response.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "value": "unusued",<br>
+                    &emsp; "hints": [<br>
+                    &emsp; &emsp; "unutilized",<br>
+                    &emsp; &emsp; "unemployed",<br>
+                    &emsp; &emsp; "unexploited",<br>
+                    &emsp; &emsp; "spare",<br>
+                    &emsp; &emsp; "surplus",<br>
+                    &emsp; ]<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+          </table>
+        </p>
+      </div>
+
+      <!--Office API Section-->
+      <h2 style="font-weight: normal;">
+        <a name="scramble"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">officeAPI</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          <code>GET /office</code>
+          <p style="text-align: left;">Gets a random line of dialogue from The Office.</p>
+          <p style="text-align: left; font-weight: bold;">Parameters</p>
+        <table width="100%">
+            <tr style="text-align: center;">
+              <th style="width: 15%; font-weight: normal;"><p style="color: #E0E2E4;">Name</p></th>
+              <th style="width: 10%; font-weight: normal;"><p style="color: #E0E2E4;">Type</p></th>
+              <th style="font-weight: normal;"><p style="color: #E0E2E4;">Description</p></th>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">season</code></td>
+              <td><code class="code">int</code></td>
+              <td style="font-weight: normal;"><p style="color: #E0E2E4;">
+                Must be a season in the range <code class="code">1-9</code>.<br>
+                Can also be empty to choose a random season.
+              </p></td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">episode</code></td>
+              <td><code class="code">int</code></td>
+              <td style="font-weight: normal;"><p style="color: #E0E2E4;">
+                The number of the episode to get. If the episode number exceeds the amount of episodes in the given season. An error will be given.
+              </p></td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">type</code></td>
+              <td><code class="code">string</code></td>
+              <td style="font-weight: normal;"><p style="color: #E0E2E4;">
+                The type of quote to get. Can be either <code class="code">aired</code>, <code class="code">deleted</code>, or <code class="code">any</code>.<br>
+                Defaults to <code class="code">aired</code>.
+              </p></td>
+            </tr>
+          </table>
+          <p style="text-align: left; font-weight: bold;">Response Message</p>
+          <table width="100%">
+            <tr style="text-align: center;">
+              <th style="width: 10%;"><code class="code">Status Code</code></th>
+              <th style="width: 20%;"><code class="code">Reason</code></th>
+              <th><code class="code">Response</code></th>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">400</code></td>
+              <td><p>
+                The episode parameter was given but no season was given.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": false,<br>
+                    &emsp; "error": "Season not given. Episode was."<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">400</code></td>
+              <td><p>
+                The episode parameter given is out of range of the season given.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": false,<br>
+                    &emsp; "error": "Invalid Episode."<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">400</code></td>
+              <td><p>
+                The season parameter is not a valid season.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": false,<br>
+                    &emsp; "error": "Invalid Season"<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">400</code></td>
+              <td><p>
+                The quote type given was not a valid quote type.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": false,<br>
+                    &emsp; "error": "Invalid Quote Type."<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+            <tr style="text-align: left;">
+              <td><code class="code">200<code></td>
+              <td><p>
+                A successful response.
+              </p></td>
+              <td>
+                <p style="text-align: left;"><code class="code">
+                  {<br>
+                    &emsp; "success": true,<br>
+                    &emsp; "value": "Oh that's Andy. He's just hanging out.",<br>
+                    &emsp; "author": "Erin",<br>
+                    &emsp; "season": 8,<br>
+                    &emsp; "episode": 22,<br>
+                    &emsp; "deleted": false<br>
+                  }<br>
+                </code></p>
+              </td>
+            </tr>
+          </table>
+        </p>
+      </div>
+  
+    </div>
+  </body>
+</html>

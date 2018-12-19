@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='/safari-pinned-tab.svg') }}" color="#202020">
+    <meta name="msapplication-TileColor" content="#202020">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='/mstile-144x144.png') }}">
+    <meta name="theme-color" content="#202020">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='/browserconfig.xml') }}">
+
+    <meta property="theme-color" content="#EC7600" />
+    <meta property="og:title" content="website.projects();" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.fellowhashbrown.com/projects" />
+    <meta property="og:image" content="https://i.imgur.com/OVZVMLs.png" />
+
+    <meta property="og:description" content="this is the page where all my projects are at! it's nice to see you've reached this. if you ever use any of them or whatnot, i appreciate the support." />
+    <meta property="og:site_name" content="Fellow Hashbrown" />
+  </head>
+
+  <header>
+    <img src="https://i.imgur.com/OVZVMLs.png" width="50px" height="50px" class="logo">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <nav>
+        <ul>
+          <li><a href="/">home</a></li>
+          <li><a href="/projects">projects</a></li>
+          <li><a href="/api">api</a></li>
+        </ul>
+    </nav>
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+    </label>
+  </header>
+
+  <body>
+    <div class="content">
+      <!--Title of Projects Page-->
+      <h1 style="font-weight: normal; text-align: center;">
+        <code class="field">website</code><code class="regular">.</code><code class="field">projects</code><code class="regular">();</code>
+      </h1>
+      <div class="rectangle" style="max-width: 75%;">
+        <p style="text-align: center;">
+          this is the page where all my projects are at! it's nice to see you've reached this. if you ever use any of them or whatnot, i appreciate the support.
+        </p>
+      </div>
+
+      <!--Omega Psi Section-->
+      <h2 style="font-weight: normal;">
+        <a name="omega-psi"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">omegaPsi</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          ever since september of 2018, i started developing a discord bot which used to be called QWERTY. that one doesn't exist anymore because i updated it a ton and completely rewrote it. <br>
+          for that reason, i renamed it to Omega Psi. it's pretty cool. check out my <a href="https://github.com/FellowHashbrown/omega-psi" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">github repo</a> for it or try it out on my <a href="discord.gg/mvNxh3f" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">discord server<a/>. <br>
+          if you want to try out Omega Psi in your own server, just <a href="https://discordapp.com/oauth2/authorize?scope=bot&client_id=503804826187071501&permissions=0" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">invite  it</a>.<br>
+          for quick reference, <a href="/projects/omegaPsi" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">here</a> is the page where all the commands for Omega Psi are.
+        </p>
+      </div>
+
+      <!--Supercog Section-->
+      <h2 style="font-weight: normal;">
+        <a name="supercog"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">supercog</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          while developing my discord bot, i realized i was reusing code so i created a few classes for it to simplify it. then i realized how useful my shortened code was and decided to write a Python library for it. so i did and i call it supercog. that came from the fact that in the <a href="https://github.com/Rapptz/discord.py/tree/rewrite" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">discord.py library</a>, there are extensions called cogs. isn't that just neato dorito. anyways, if you wanna look at it or install it, go to my <a href="https://github.com/FellowHashbrown/supercog" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">github repo</a> for it.
+        </p>
+      </div>
+      
+      <!--2098 Section-->
+      <h2 style="font-weight: normal;">
+        <a name="2098"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">get2098</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          2098 is a game that is not finished yet. it is not even close. but i am currently working on it which means that updates will follow. currently, i don't have any update subscription for it because most of my updates are ran through my <a href="discord.gg/mvNxh3f" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">discord server<a/>. i will eventually create a separate page for 2098 updates once i start actually getting a framework built for it.
+        </p>
+      </div>
+      
+      <!--Invasion Section-->
+      <h2 style="font-weight: normal;">
+        <a name="invasion"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">invasion</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          invasion is a cool game that i am also working on. i used to have one written but it was when i first discovered how to make a game in Python. i didn't understand classes or object-oriented programming yet. that made my code look terribly confusing and it was also horribly undocumented. for that reason, i deleted it and now im rewriting it in a way that is far easier to read and is highly documented. stay tuned for that too. once i setup a github repo for it, you'll see the link here.
+        </p>
+      </div>
+      
+      <!--Element Generator Section-->
+      <h2 style="font-weight: normal;">
+        <a name="element-generator"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">elementGenerator</code><code class="regular">();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          element generator is one of my most major java projects. all it really is is an application that simplifies adding new elements and minerals in <a href="https://minecraft.net/en-us/download/" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">Minecraft: Java Edition</a>. here is the <a href="https://drive.google.com/uc?export=download&id=1GBE9MqUt9FLldiQFhNMqiFham-F4ttaG" target="_blank" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">download link</a> and my code is available at my <a href="https://github.com/FellowHashbrown/element-generator" class="regular" style="text-decoration: none; font-weight: bold; font-style: italic;">github repo</a> for it.
+        </p>
+      </div>
+      
+      <!--JSON Section (Maybe)
+      <h2 style="font-weight: normal;">
+        <a name="json"></a>
+        <code class="field">page</code><code>.</code><code class="field">json</code><code>();</code>
+      </h2>
+      <div class="rectangle">
+        <p style="text-align: left;">
+          i also have a JSON parser written for Java. this one is extremely basic but it is simple to read and understand. i do not currently have a github repo for it but as soon as it exists, i will link the repo here.
+        </p>
+      </div>
+      -->
+  
+    </div>
+  </body>
+</html>

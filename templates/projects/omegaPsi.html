@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='/safari-pinned-tab.svg') }}" color="#202020">
+    <meta name="msapplication-TileColor" content="#202020">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='/mstile-144x144.png') }}">
+    <meta name="theme-color" content="#202020">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='/browserconfig.xml') }}">
+
+    <meta property="theme-color" content="#EC7600" />
+    <meta property="og:title" content="website.omegaPsi();" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.fellowhashbrown.com/projects/omegaPsi" />
+    <meta property="og:image" content="https://i.imgur.com/OVZVMLs.png" />
+
+    <meta property="og:description" content="here is a list of commands that are available in my bot, Omega Psi." />
+    <meta property="og:site_name" content="Fellow Hashbrown" />
+  </head>
+
+  <header>
+    <img src="https://i.imgur.com/OVZVMLs.png" width="50px" height="50px" class="logo">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <nav>
+        <ul>
+          <li><a href="/">home</a></li>
+          <li><a href="/projects">projects</a></li>
+          <li><a href="/api">api</a></li>
+        </ul>
+    </nav>
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+    </label>
+  </header>
+
+  <body>
+    <div class="content">
+      <!--Title of Omega Psi Page-->
+      <h1 style="font-weight: normal; text-align: center;">
+        <code class="field">website</code><code class="regular">.</code><code class="field">omegaPsi</code><code class="regular">();</code>
+      </h1>
+      <div class="rectangle" style="max-width: 75%;">
+        <p style="text-align: center;">
+          here is a list of commands that are available in my bot, Omega Psi.
+        </p>
+      </div>
+
+      <!--Commands Section-->
+      <h2 style="font-weight: normal;">
+        <a name="commands"></a>
+        <code class="field">page</code><code class="regular">.</code><code class="field">commands</code><code class="regular">();</code>
+      </h2>
+      <div style="height: 1100%;" class="rectangle">
+        <iframe src="https://omega-psi--fellowhashbrown.repl.co" width="100%" height="1100%"></iframe>
+      </div>
+    </div>
+  </body>
+</html>
