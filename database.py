@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from random import choice
-import asyncio, os
+import asyncio, base64, os
 
 # Create event loop
 loop = asyncio.get_event_loop()
@@ -36,66 +36,74 @@ class Database:
 
         # Keep track of The Office Quotes
         self._theOffice = self._quotes.theOffice
+
+        # Keep track of Llamas With Hats Quotes
+        self._llamasWithHats = self._quotes.llamasWithHats
+    
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+        # Create the Connection and Get the Database from Website
+        self._websiteConnection = MongoClient("ds159574.mlab.com", 59574, connect = False)
+        self._website = self._websiteConnection["website"]
+
+        # Get the username and password to authenticate database access
+        username = os.environ["WEBSITE_USERNAME"]
+        password = os.environ["WEBSITE_PASSWORD"]
+        self._website.authenticate(username, password)
+
+        # Keep track of 2054 data
+        self._moderators = self._website.moderators
+        self._subscriptions = self._website.subscriptions
     
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # Hangman
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
-    def __get_hangman_words(self, difficulty = None):
+    def __get_hangman_words(self):
         """A helper method to get the words in the API.
         """
 
-        if difficulty == None:
-            words = []
-            for difficulty in ["easy", "medium", "hard"]:
-                words.append(self.__get_hangman_words(difficulty))
+        words = self._data.find_one({"_id": "hangman"})
 
-        else:
-            words = self._data.find_one({"_id": "hangman"})[difficulty]
-
-        return words
+        return words["words"]
     
-    async def getHangmanWords(self, difficulty = None):
+    async def getHangmanWords(self):
         """Gets the hangman words in the API.
 
         Parameters:
             difficulty (str): The specific difficulty to get the words for.
         """
-        return await loop.run_in_executor(None, self.__get_hangman_words, difficulty)
+        return await loop.run_in_executor(None, self.__get_hangman_words)
     
-    async def getHangmanWord(self, difficulty = None):
+    async def getHangmanWord(self):
         """Returns a random word from the specified difficulty.
 
         Parameters:
             difficulty (str): The specified difficulty to get the words for. (Defaults to easy)
         """
 
-        if difficulty == None:
-            difficulty = "easy"
-
-        words = await self.getHangmanWords(difficulty)
+        words = await self.getHangmanWords()
         return choice(words)
     
-    def getHangmanWordsSync(self, difficulty = None):
+    def getHangmanWordsSync(self):
         """Gets the hangman words in the API.
 
         Parameters:
             difficulty (str): The specific difficulty to get the words for.
         """
-        return self.__get_hangman_words(difficulty)
+        return self.__get_hangman_words()
 
-    def getHangmanWordSync(self, difficulty = None):
+    def getHangmanWordSync(self):
         """Returns a random word from the specified difficulty.
 
         Parameters:
             difficulty (str): The specified difficulty to get the words for. (Defaults to easy)
         """
-
-        if difficulty == None:
-            difficulty = "easy"
-        
-        words = self.getHangmanWordsSync(difficulty)
+        words = self.getHangmanWordsSync()
         return choice(words)
+    
+    def setHangmanWordsSync(self, words):
+        self._data.update_one({"_id": "hangman"}, {"$set": {"words": words}}, upsert = False)
     
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # Scramble
@@ -118,7 +126,7 @@ class Database:
         words = await self.getScrambleWords()
         return choice(words)
     
-    def getScrambleWordsSync(self, difficulty = None):
+    def getScrambleWordsSync(self):
         """Gets the hangman words in the API.
 
         Parameters:
@@ -131,6 +139,38 @@ class Database:
         """
         words = self.getScrambleWordsSync()
         return choice(words)
+    
+    def setScrambleWordsSync(self, words):
+        self._data.update_one({"_id": "scramble"}, {"$set": {"words": words}}, upsert = False)
+    
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Llamas With Hats
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    def __get_llamas_script(self, episodeNumber):
+        """A helper method to get the script for an episode in the API.
+        """
+        script = self._llamasWithHats.find_one({"_id": f"episode{episodeNumber}"})
+        script.pop("_id")
+        return script
+
+    def __get_llamas_quote(self, episodeNumber):
+        """A helper method to get a quote from an episode in the API.
+        """
+        script = self.__get_llamas_script(episodeNumber)
+        quote = choice(script["quotes"])
+        quote["image"] = script["image"]
+        return quote
+
+    def getLlamasScript(self, episodeNumber):
+        """Returns the script for an episode
+        """
+        return self.__get_llamas_script(episodeNumber)
+    
+    def getLlamasQuote(self, episodeNumber):
+        """Returns a quote for an episode
+        """
+        return self.__get_llamas_quote(episodeNumber)
     
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # The Office
@@ -185,5 +225,85 @@ class Database:
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # Brooklyn 99
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Moderators
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    def getModerators(self):
+        """Gets a list of moderators that can access the inner website.
+        """
+
+        # Get list of moderators
+        moderators = self._moderators.find_one({"_id": "moderators"})
+        if moderators == None:
+            moderators = {"moderators": {}}
+            self._moderators.insert_one({"_id": "moderators"})
+            self.setModerators(moderators)
+        
+        return moderators
+    
+    def setModerators(self, moderators):
+        """Sets the list of moderators that can access the inner website.
+        """
+
+        # Set list of moderators
+        self._moderators.update_one({"_id": "moderators"}, {"$set": moderators}, upsert = False)
+    
+    def isModerator(self, authentication):
+        """Determines whether or not the authentication given is a valid user who can access the inner website.
+        """
+
+        # Get moderators
+        moderators = self.getModerators()
+
+        # Remove Basic from the authentication
+        authentication = authentication[len("Basic"):]
+
+        # Decrypt from Base64
+        authentication = base64.b64decode(authentication.encode()).decode()
+
+        # Get username and password
+        colon = authentication.find(":")
+        username = authentication[:colon]
+        password = authentication[colon + 1:]
+
+        # See if username exists as a moderator
+        if username in moderators:
+            return moderators[username] == password
+        
+        return False
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Add Hangman
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    def addHangman(self, difficulty, phrase):
+
+        # Get hangman words
+        hangmanWords = self.getHangmanWordsSync(difficulty)
+
+        # Add hangman word to list
+        hangmanWords.append({
+            "value": phrase,
+            "level": difficulty
+        })
+
+        # Update hangman words
+        self.setHangmanWordsSync(difficulty, hangmanWords)
+    
+    def addScramble(self, phrase, hints):
+
+        # Get scramble words
+        scrambleWords = self.getScrambleWordsSync()
+
+        # Add scramble word to list
+        scrambleWords.append({
+            "value": phrase,
+            "hints": hints
+        })
+
+        # Update scramble words
+        self.setScrambleWordsSync(scrambleWords)
 
 database = Database()
