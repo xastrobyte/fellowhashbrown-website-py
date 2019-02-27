@@ -1,14 +1,22 @@
-from database import database
+import apiMethods.hangman
+import apiMethods.scramble
+import apiMethods.logic
+import apiMethods.morse
+import apiMethods.profanity
+import apiMethods.llamas
+import apiMethods.office
 
-from flask import Flask, render_template, request, jsonify, url_for
+import builder, os
+
+from database import database
+from datetime import datetime
+from flask import Flask, render_template, request, jsonify, url_for, send_file, after_this_request
 from random import randint
 from threading import Thread
 
 # Keep track of ranges for seasons and number of episodes
-officeSeasons = [6, 22, 23, 14, 26, 24, 24, 24, 23]
 parksSeasons = [6, 24, 16, 22, 22, 22, 13]
 brooklynSeasons = [22, 23, 23, 22, 22, 18]
-
 
 app = Flask("Fellow Hashbrown Website")
 
@@ -18,11 +26,15 @@ app = Flask("Fellow Hashbrown Website")
 
 @app.route("/")
 def home():
-    return render_template("homepage.html")
+    return render_template("home.html")
 
 @app.route("/projects")
 def projects():
     return render_template("projects.html")
+
+@app.route("/archives")
+def archives():
+    return render_template("archives.html")
 
 @app.route("/api")
 def api():
@@ -32,142 +44,161 @@ def api():
 # Subpages    
 # # # # # # # # # # # # # # # # # # # # 
 
-@app.route("/projects/omegaPsi")
-def omegaPsi():
-    return render_template("projects/omegaPsi.html")
+# # # # # # # # # # # # # # # # # # # # 
+# Error Pages
+# # # # # # # # # # # # # # # # # # # # 
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("pageNotFound.html"), 404
 
 # # # # # # # # # # # # # # # # # # # # 
 # API Methods
 # # # # # # # # # # # # # # # # # # # # 
 
-@app.route("/api/hangman", methods = ["GET"])
+@app.route("/api/hangman", methods = ["GET", "POST"])
 def hangman():
-    difficulty = request.args.get("difficulty", default = "easy", type = str)
 
-    if difficulty not in ["easy", "medium", "hard", "random"]:
-        result = {
-            "success": False,
-            "error": "Invalid Difficulty"
-        }
-        code = 400
-
+    if request.method == "GET":
+        return apiMethods.hangman.hangmanAPI()
+    
     else:
+        is_developer = request.headers.get("X-Fellow-Key", default = None, type = str) == os.environ["WEBSITE_API_KEY"]
 
-        if difficulty == "random":
-            difficulty = "easy"
+        if is_developer:
+            data = request.json
+
+            if "difficulty" not in data or "phrase" not in data:
+                result = {"success": False, "error": "There needs to be a difficulty and a phrase to add."}
+                code = 400
             
-        result = database.getHangmanWordSync(difficulty)
-        result["success"] = True
-        code = 200
+            else:
 
-    return jsonify(result), code
+                database.addHangman(data["difficulty"], data["phrase"])
+                result = {"success": True, "value": "Phrase was added to the specified difficulty in Hangman."}
+                code = 200
+        
+        else:
+            result = {"success": False, "error": "You are not a developer and cannot add to this database."}
+            code = 400
+        
+        return jsonify(result), code
 
-@app.route("/api/scramble", methods = ["GET"])
+@app.route("/api/scramble", methods = ["GET", "POST"])
 def scramble():
-    return jsonify(database.getScrambleWordSync()), 200
+
+    if request.method == "GET":
+        return apiMethods.scramble.scrambleAPI()
+    
+    else:
+        is_developer = request.headers["X-Fellow-Key"] == os.environ["WEBSITE_API_KEY"]
+
+        if is_developer:
+            data = request.json
+
+            if "phrase" not in data or "hints" not in data:
+                result = {"success": False, "error": "There needs to be a difficulty and a phrase to add."}
+                code = 400
+            
+            else:
+
+                database.addScramble(data["phrase"], data["hints"])
+                result = {"success": True, "value": "Phrase was added in Scramble."}
+                code = 200
+        
+        else:
+            result = {"success": False, "error": "You are not a developer and cannot add to this database."}
+            code = 400
+        
+        return jsonify(result), code
+        
 
 @app.route("/api/morse/encode", methods = ["GET"])
 def morseEncode():
-    result = {
-        "success": False,
-        "error": "Not Implemented Yet"
-    }
-    return jsonify(result), 400
+    text = request.args.get("text", default = None, type = str)
+    return apiMethods.morse.encodeAPI(text)
 
 @app.route("/api/morse/decode", methods = ["GET"])
 def morseDecode():
-    result = {
-        "success": False,
-        "error": "Not Implemented Yet"
-    }
-    return jsonify(result), 400
+    text = request.args.get("text", default = None, type = str)
+    return apiMethods.morse.decodeAPI(text)
 
+@app.route("/api/logic", methods = ["GET"])
+def logic():
+    expression = request.args.get("expression", default = None, type = str)
+    compare = request.args.get("compare", default = None, type = str)
+
+    as_table = request.args.get("table", default = False, type = bool)
+
+    download = request.args.get("download", default = False, type = bool)
+    raw = request.args.get("raw", default = False, type = bool)
+
+    # See if user agent is connected
+    has_user_agent = False
+    for key in request.headers:
+        if key[0].lower() == "user-agent":
+            has_user_agent = True
+            break
+
+    # See if download or raw parameters exist
+    # These should only be accessed by someone with a user-agent connected
+    if (download or raw) and has_user_agent:
+        response = apiMethods.logic.logicAPI(expression, None, True)[0].json
+
+        # Create file
+        filename = "static/logic_requests/logic_request_{}.txt".format(datetime.now().timestamp())
+        temp = open(filename, "w")
+        temp.write("\n".join(response["value"]))
+        temp.close()
+
+        # Delete the file afterwards; We don't want to keep it
+        @after_this_request
+        def remove_file(response):
+            try:
+                os.remove(filename)
+            except Exception as e:
+                print(str(e))
+            return response
+
+        # Send file for raw viewing
+        if raw:
+            return send_file(filename)
+        
+        # Send file for download
+        return send_file(filename, as_attachment = True)
+
+    return apiMethods.logic.logicAPI(expression, as_table = as_table)
+
+@app.route("/api/profanity", methods = ["GET"])
+def profanity():
+    text = request.args.get("text", default = None, type = str)
+    return apiMethods.profanity.profanityAPI(text)
+
+@app.route("/api/llamas", methods = ["GET"])
+def llamas():
+    episode = request.args.get("episode", default = None, type = int)
+    author = request.args.get("author", default = None, type = str)
+    getAny = request.args.get("any", default = False, type = bool)
+    fullScript = request.args.get("fullScript", default = False, type = bool)
+    return apiMethods.llamas.llamasAPI(episode, author, getAny, fullScript)
 
 @app.route("/api/office", methods = ["GET"])
-def officeQuotes():
+def office():
     season = request.args.get("season", default = 0, type = int)
     episode = request.args.get("episode", default = 0, type = int)
     quoteType = request.args.get("type", default = "aired", type = str)
+    return apiMethods.office.officeAPI(season, episode, quoteType)
 
-    code = 200
-
-    # Check if season does not exist
-    if season == 0:
-
-        # Check if episode does not exist
-        if episode == 0:
-
-            # Choose random season and random episode from season
-            season = randint(1, 9)
-            episode = randint(1, officeSeasons[season - 1])
-        
-        # Episode does exist; Throw 409 status
-        else:
-            result = {
-                "success": False,
-                "error": "Season not given. Episode was."
-            }
-            code = 400
-    
-    # Check if season exists
-    else:
-
-        # Make sure season is within range
-        if season >= 1 and season <= 9:
-
-            # Check if episode does not exist
-            if episode == 0:
-
-                # Choose random episode
-                episode = randint(1, officeSeasons[season - 1])
-            
-            # Episode does exist
-            else:
-
-                # See if it is out of range; Throw 404 status
-                if episode < 1 or episode > officeSeasons[season - 1]:
-                    result = {
-                        "success": False,
-                        "error": "Invalid Episode."
-                    }
-                    code = 400
-        
-        # Season is out of range; Throw 416 status
-        else:
-            result = {
-                "success": False,
-                "error": "Invalid Season."
-            }
-            code = 400
-
-    # Only run if error wasn't made
-    if code == 200:
-
-        # Validate quote type; Throw 400 status
-        quoteTypes = ["deleted", "aired", "any"]
-        if quoteType not in quoteTypes:
-            result = {
-                "success": False,
-                "error": "Invalid Quote Type."
-            }
-            code = 400
-        
-        # Quote type was valid
-        else:
-
-            # Get quote
-            result = database.getOfficeQuoteSync(season, episode, quoteType)
-            result["success"] = True
-            code = 200
-    
-    return jsonify(result), code
+# # # # # # # # # # # # # # # # # # # #
+# Webhooks
+# # # # # # # # # # # # # # # # # # # # 
 
 # # # # # # # # # # # # # # # # # # # # 
 # The Other Stuff
 # # # # # # # # # # # # # # # # # # # # 
 
 def run():
-    app.run(host = "0.0.0.0", port = 3000)
+    app.run(host = "0.0.0.0", port = randint(1000, 9999))
 
 def keepAlive():
     thread = Thread(target = run)
